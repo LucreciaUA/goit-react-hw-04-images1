@@ -1,0 +1,21 @@
+.load{
+    background-color: rgb(55, 55, 230);
+    padding: 10px 15px;
+    border: 1px solid transparent;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.wrap{
+    display: flex;
+    justify-content: center;
+    padding-bottom: 20px;
+}
+
+.load:hover{
+    font-size: 20px;
+    font-weight: 700;
+    box-shadow: 0 0 50px 5px #3b45d7;
+    
+}
