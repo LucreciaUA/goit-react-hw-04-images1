@@ -77,7 +77,7 @@ componentDidMount() {
     }
 
     render() {
-        const { hits, isLoading, error, total, isModal, selectedImage, page } = this.state;
+        const { hits, isLoading, error, total, isModal, selectedImage} = this.state;
         
         return (
             <>
@@ -94,7 +94,7 @@ componentDidMount() {
                     (<>
                         {error && <p>Error: {error}</p>}
                         <Gallery hits={hits} onImgClick={this.onImgClick} />
-                        {(total > 12 || Math.ceil(total/12) > page) && <Button onClick={this.loadMore} />}
+                        {(total > 12 && total> hits.length) && <Button onClick={this.loadMore} />}
                         {
                             isModal && (<Modal image={selectedImage} onClose={this.closeModal} />)
    
