@@ -1,12 +1,18 @@
 import { ImageGalleryItem } from "components/photoes/ImageGalleryItem";
 import React from "react";
 import css from './gallery.module.css'
+import PropTypes from 'prop-types';
 
-export const Gallery = ({hits, onImgClick}) => {
+export const Gallery = ({hits}) => {
     return (
         <ul className={css.gallery}>
-            <ImageGalleryItem hits={hits}
-            onImgClick={onImgClick} />
+            {hits.map(image => (
+          <ImageGalleryItem key={image.id} image={image} />
+        ))}
         </ul>
     )
 }
+
+Gallery.propTypes = {
+  hits: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+};

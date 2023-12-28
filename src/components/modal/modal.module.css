@@ -1,22 +1,20 @@
-.overlay{
-    height: 100vh;
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100vw;
-    position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(239, 239, 239, 0.381);
-        z-index: 1000;
-
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    padding: 50px;
 }
 
-.modal{
-    padding-top: 5%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-        
+.modal {
+    max-width: 50vw;
+    max-height: 50vh;
 }
 
 img{
@@ -26,15 +24,5 @@ img{
     
 }
 
-.close{
-    border: 1px solid transparent;
-    color: #fff;
-    background-color: rgb(249, 7, 7);
-    font-size: 20px;
-    font-weight: 900;
-    border-radius: 50%;
-    top: 10px;
-    position: absolute;
-    right: 10px;
-}
+
 
