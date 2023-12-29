@@ -1,4 +1,10 @@
 .galleryItem {
     list-style: none;
-    width: 700px;
+    width: 95%;
+}
+
+@media only screen and (min-width: 650px) {
+.galleryItem{
+    width: 45%;
+  }
 }

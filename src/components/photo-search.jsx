@@ -41,12 +41,10 @@ class PhotoGallery extends Component{
 
         const newHits = response.data.hits;
 
-        const uniqueNewHits = newHits.filter(newHit => 
-            !hits.some(hit => hit.id === newHit.id)
-        );
+
 
         this.setState(prevState => ({
-            hits: page === 1 ? uniqueNewHits : [...prevState.hits, ...uniqueNewHits],
+            hits: page === 1 ? newHits : [...prevState.hits, ...newHits],
             total: response.data.totalHits,
         }));
         console.log(response.data.hits[0]);
