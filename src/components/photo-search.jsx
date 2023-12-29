@@ -6,6 +6,7 @@ import { SearchBar } from "./header/header";
 import { getData } from "./api/get-data";
 import { Button } from "./load-more/button";
 import './photo-search.module.css'
+import { NoImages } from "./noimg/noImages";
 
 
 
@@ -35,7 +36,7 @@ class PhotoGallery extends Component{
     
     getAllPhoto = async () => {
         try {
-            const { search, page, hits } = this.state;
+            const { search, page} = this.state;
         console.log(search);
         const response = await getData(search, page);
 
@@ -89,7 +90,11 @@ class PhotoGallery extends Component{
   />):
                     (<>
                         {error && <p>Error: {error}</p>}
-                        <Gallery hits={hits}/>
+                        {total === 0 ? (
+                        <NoImages/>
+                    ) : (
+                        <Gallery hits={hits} />
+                    )}
                         {(total > 12 && total> hits.length) && <Button onClick={this.loadMore} />}
 
                     </>)}
