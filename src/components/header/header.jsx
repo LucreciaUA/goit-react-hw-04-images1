@@ -1,7 +1,7 @@
 
 import React, {useState } from "react";
 import css from './header.module.css'
-import PropTypes from 'prop-types'
+
 
 export const SearchBar =({onSubmit})=>{
 
@@ -16,8 +16,8 @@ export const SearchBar =({onSubmit})=>{
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const searchValue = e.target.elements.searchQuery.value.toLowerCase();
-        onSubmit(searchValue);
+    //const searchValue = e.target.elements.searchQuery.value.toLowerCase();
+        onSubmit(query);
     
   };
   
@@ -43,6 +43,3 @@ export const SearchBar =({onSubmit})=>{
     }
 
 
-SearchBar.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};

@@ -8,6 +8,7 @@ import { Button } from "./load-more/button";
 import './photo-search.module.css'
 import { NoImages } from "./noimg/noImages";
 import { images } from "./api/images-norm";
+import { Starting } from "./starting-page/starting-page";
 
 
 
@@ -18,7 +19,7 @@ const PhotoGallery =()=>{
     const [error, setError] = useState('')
     const [search, setSearch] = useState('')
     const [page, setPage] = useState(1)
-    const [total, setTotal] = useState(null)
+    const [total, setTotal] = useState(0)
 
     useEffect(() => {
 
@@ -31,15 +32,14 @@ const PhotoGallery =()=>{
             setIsLoading(true);
             const response = await getData(search, page);
             const newHits = images(response.hits);
-            setHits(prev => [...prev, ...newHits]);
-            console.log(hits)
+            setHits(prev => prev?[...prev, ...newHits]:newHits);
+            //console.log(hits)
             setTotal(response.totalHits);
             //console.log(hits)
             //console.log(search)
             setIsLoading(false);
-        } catch (error) {
+        } catch(error) {
             setError(error.message);
-            console.log(error)
         } finally {
             setIsLoading(false);
         }
@@ -47,7 +47,6 @@ const PhotoGallery =()=>{
        
         getAllPhoto()
         
- 
     }, [search, page])
   
     
@@ -55,6 +54,7 @@ const PhotoGallery =()=>{
         setSearch(searchQuery);
         setHits([]);
         setPage(1);
+        setTotal(0)
         console.log(search)
     };
 
@@ -68,7 +68,9 @@ const PhotoGallery =()=>{
         return (
             <>
             <SearchBar onSubmit={handleSubmit}/>
-                { isLoading?(<Vortex
+                { search === '' ? (
+                <Starting/>
+            ) : isLoading?(<Vortex
                     visible={true}
                     height="80"
                     width="80"

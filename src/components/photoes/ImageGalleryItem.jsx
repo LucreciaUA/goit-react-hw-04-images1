@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import css from './ImageGalleryItem.module.css'
 import { Modal } from "components/modal/modal";
-import PropTypes from 'prop-types';
+
 
 export const ImageGalleryItem =({image})=> {
     
@@ -10,9 +10,7 @@ export const ImageGalleryItem =({image})=> {
 
     
     const openModal = () => {
-    setIsModal(({ isModal }) => ({
-      isModal: !isModal,
-    }));
+    setIsModal(prev=>!prev);
      };
     
     
@@ -24,7 +22,7 @@ export const ImageGalleryItem =({image})=> {
             <Modal
               largeImageURL={image.largeImageURL}
               tags={image.tags}
-              onClose={openModal}
+              onClose={setIsModal}
             />
           )}
         </li>
@@ -35,10 +33,3 @@ export const ImageGalleryItem =({image})=> {
 
 
 
-ImageGalleryItem.propTypes = {
-  image: PropTypes.shape({
-    webformatURL: PropTypes.string.isRequired,
-    tags: PropTypes.string.isRequired,
-    largeImageURL: PropTypes.string.isRequired,
-  }).isRequired,
-};
