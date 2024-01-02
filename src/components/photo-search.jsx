@@ -1,5 +1,5 @@
 
-import { Component } from "react";
+import { useEffect, useState } from "react";
 import { Gallery } from "./gallery/gallery";
 import { Vortex } from "react-loader-spinner";
 import { SearchBar } from "./header/header";
@@ -7,78 +7,67 @@ import { getData } from "./api/get-data";
 import { Button } from "./load-more/button";
 import './photo-search.module.css'
 import { NoImages } from "./noimg/noImages";
+import { images } from "./api/images-norm";
 
 
 
-class PhotoGallery extends Component{
-    state = {
-        hits: [],
-        isLoading: true,
-        error: '',
-        search: 'cat',
-        page: 1,
-        total: null,
-    }
+const PhotoGallery =()=>{
 
-    componentDidMount() {
-       this.getAllPhoto(this.state.search)
-    }
-  
-    componentDidUpdate(prevProps, prevState) {
-    if (
-      prevState.search !== this.state.search ||
-      prevState.page !== this.state.page
-    ){
-       this.getAllPhoto()}
-    }
-    
+    const [hits, setHits] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState('')
+    const [search, setSearch] = useState('')
+    const [page, setPage] = useState(1)
+    const [total, setTotal] = useState(null)
 
-    
-    getAllPhoto = async () => {
+    useEffect(() => {
+
+        const getAllPhoto = async () => {
+            if (!search) {
+                return
+            }
+
         try {
-            const { search, page} = this.state;
-        console.log(search);
-        const response = await getData(search, page);
-
-        const newHits = response.data.hits;
-
-
-
-        this.setState(prevState => ({
-            hits: page === 1 ? newHits : [...prevState.hits, ...newHits],
-            total: response.data.totalHits,
-        }));
-        console.log(response.data.hits[0]);
-            console.log(this.state)
+            setIsLoading(true);
+            const response = await getData(search, page);
+            const newHits = images(response.hits);
+            setHits(prev => [...prev, ...newHits]);
+            console.log(hits)
+            setTotal(response.totalHits);
+            //console.log(hits)
+            //console.log(search)
+            setIsLoading(false);
+        } catch (error) {
+            setError(error.message);
+            console.log(error)
+        } finally {
+            setIsLoading(false);
         }
-        catch(error) {
-            this.setState({error: error.message})
-        }
-        finally {
-            this.setState({isLoading: false})
-        }
- }
-
-
-   handleSubmit = (searchQuery) => {
-        this.setState({ search: searchQuery, hits: [], isLoading: true, page: 1 }, () => {
-            this.getAllPhoto(searchQuery);
-        });
+    }
+       
+        getAllPhoto()
+        
+ 
+    }, [search, page])
+  
+    
+    const handleSubmit = (searchQuery) => {
+        setSearch(searchQuery);
+        setHits([]);
+        setPage(1);
+        console.log(search)
     };
 
-    loadMore = () => {
-        this.setState(prevState => ({
-            page: prevState.page + 1
-        }));
+    const loadMore = () => {
+        
+        setPage((prev) => prev+1)
     }
 
 
-    render() {
-        const { hits, isLoading, error, total} = this.state;
-        
+
         return (
             <>
-            <SearchBar onSubmit={this.handleSubmit}/>
+            <SearchBar onSubmit={handleSubmit}/>
                 { isLoading?(<Vortex
                     visible={true}
                     height="80"
@@ -95,7 +84,7 @@ class PhotoGallery extends Component{
                     ) : (
                         <Gallery hits={hits} />
                     )}
-                        {(total > 12 && total> hits.length) && <Button onClick={this.loadMore} />}
+                        {(total > 12 && total> hits.length) && <Button onClick={loadMore} />}
 
                     </>)}
                 
@@ -103,7 +92,7 @@ class PhotoGallery extends Component{
             </>
 
     );
-    }
+    
 }
 
 export default PhotoGallery

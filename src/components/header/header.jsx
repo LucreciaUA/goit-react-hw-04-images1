@@ -1,38 +1,28 @@
 
-import React, { Component } from "react";
+import React, {useState } from "react";
 import css from './header.module.css'
 import PropTypes from 'prop-types'
 
-export class SearchBar extends Component{
-    state ={
-        query: '',
-        search: ''
-    }
+export const SearchBar =({onSubmit})=>{
 
-     handleChange = (e) => {
-    this.setState({ query: e.target.value });
+  
+  const [query, setQuery] = useState('')
+  
+
+    const handleChange = (e) => {
+      setQuery(e.target.value.toLowerCase());
+      console.log(query)
   };
 
-  handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const { query, search } = this.state;
-
-    if (query.trim() !== search) {
-
-        this.setState({ search: query }, () => {
-
-            console.log("Submitted query:", this.state.search);
-        });
-
-       
-        this.props.onSubmit(query);
-    }
-};
-
+    const searchValue = e.target.elements.searchQuery.value.toLowerCase();
+        onSubmit(searchValue);
     
-    render(){
+  };
+  
         return (<header className={css.searchbar}>
-  <form className={css.form} onSubmit={this.handleSubmit}>
+  <form className={css.form} onSubmit={handleSubmit}>
     
     <input
       className="input"
@@ -41,8 +31,8 @@ export class SearchBar extends Component{
       name="searchQuery"
       autoFocus
       placeholder="Search images and photos"
-      value={this.state.query}
-      onChange={this.handleChange}
+      value={query}
+      onChange={handleChange}
                 />
     <button type="submit" className={css.button}>
       <span className={css.search}>Search</span>
@@ -51,7 +41,7 @@ export class SearchBar extends Component{
   </form>
 </header>)
     }
-}
+
 
 SearchBar.propTypes = {
   onSubmit: PropTypes.func.isRequired,
