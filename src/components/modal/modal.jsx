@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import css from './modal.module.css';
-import PropTypes from 'prop-types';
+
 
 export const Modal = ({largeImageURL, tags, onClose }) => {
   useEffect(() => {
